@@ -1,4 +1,4 @@
-Here's a **combined and polished `README.md`** that you can paste directly into your GitHub repo. It includes both the **mobile (Android)** and **web dashboard** projects clearly separated with stylish Markdown formatting.
+
 
 ---
 
