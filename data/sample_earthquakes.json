@@ -1,0 +1,103 @@
+[
+  {
+    "id": 1,
+    "magnitude": 6.8,
+    "latitude": 36.1083,
+    "longitude": 140.0795,
+    "depth": 15.0,
+    "location": "Near East Coast of Honshu, Japan",
+    "timestamp": "2024-01-15T08:23:45.000Z",
+    "confidence": 0.95
+  },
+  {
+    "id": 2,
+    "magnitude": 5.2,
+    "latitude": -33.8688,
+    "longitude": 151.2093,
+    "depth": 12.5,
+    "location": "Off Coast of New South Wales, Australia",
+    "timestamp": "2024-01-16T12:34:56.000Z",
+    "confidence": 0.88
+  },
+  {
+    "id": 3,
+    "magnitude": 4.7,
+    "latitude": 37.7749,
+    "longitude": -122.4194,
+    "depth": 8.0,
+    "location": "San Francisco Bay Area, California",
+    "timestamp": "2024-01-17T15:45:12.000Z",
+    "confidence": 0.82
+  },
+  {
+    "id": 4,
+    "magnitude": 7.1,
+    "latitude": -35.2835,
+    "longitude": -71.3755,
+    "depth": 25.0,
+    "location": "Maule, Chile",
+    "timestamp": "2024-01-18T03:12:34.000Z",
+    "confidence": 0.97
+  },
+  {
+    "id": 5,
+    "magnitude": 3.9,
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "depth": 5.0,
+    "location": "New York Metropolitan Area, USA",
+    "timestamp": "2024-01-19T22:10:05.000Z",
+    "confidence": 0.75
+  },
+  {
+    "id": 6,
+    "magnitude": 5.8,
+    "latitude": 19.4326,
+    "longitude": -99.1332,
+    "depth": 18.0,
+    "location": "Mexico City Region, Mexico",
+    "timestamp": "2024-01-20T14:23:45.000Z",
+    "confidence": 0.90
+  },
+  {
+    "id": 7,
+    "magnitude": 4.3,
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "depth": 6.5,
+    "location": "Southern England, United Kingdom",
+    "timestamp": "2024-01-21T09:56:23.000Z",
+    "confidence": 0.78
+  },
+  {
+    "id": 8,
+    "magnitude": 6.2,
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "depth": 20.0,
+    "location": "Tokyo Region, Japan",
+    "timestamp": "2024-01-22T18:34:12.000Z",
+    "confidence": 0.93
+  },
+  {
+    "id": 9,
+    "magnitude": 5.5,
+    "latitude": -36.8485,
+    "longitude": 174.7633,
+    "depth": 14.0,
+    "location": "Auckland Region, New Zealand",
+    "timestamp": "2024-01-23T07:45:32.000Z",
+    "confidence": 0.87
+  },
+  {
+    "id": 10,
+    "magnitude": 4.8,
+    "latitude": 34.0522,
+    "longitude": -118.2437,
+    "depth": 10.0,
+    "location": "Los Angeles Area, California",
+    "timestamp": "2024-01-24T11:23:45.000Z",
+    "confidence": 0.85
+  }
+]
+

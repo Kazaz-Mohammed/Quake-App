@@ -355,6 +355,288 @@ The web dashboard is fully responsive and optimized for:
 - 💻 Tablets
 - 🖥️ Desktop computers
 
+## 🧪 Running Experiments
+
+This section provides instructions for running experiments, generating synthetic data, and testing the Quake-App system.
+
+### Prerequisites for Experiments
+
+Before running experiments, ensure:
+1. **Backend server is running**: The API server must be running on `http://localhost:3001`
+2. **Database is set up**: PostgreSQL database should be created and accessible
+3. **Dependencies installed**: All Node.js dependencies should be installed in `mobile/backend`
+
+```bash
+cd mobile/backend
+npm install
+```
+
+### Steps to Run Experiments
+
+#### Step 1: Start the Backend Server
+
+```bash
+cd mobile/backend
+
+# Create .env file if it doesn't exist
+cat > .env << EOF
+PORT=3001
+DATABASE_URL=postgres://postgres:your_password@localhost:5432/quakeapp
+EOF
+
+# Start the server
+npm run dev
+```
+
+The server should be running on `http://localhost:3001`
+
+#### Step 2: Generate Synthetic Data (Optional)
+
+Generate synthetic earthquake data for testing:
+
+```bash
+# Generate 100 synthetic earthquake events
+node scripts/generate_synthetic_data.js 100
+
+# Or specify custom output file
+node scripts/generate_synthetic_data.js 50 data/my_earthquakes.json
+```
+
+#### Step 3: Load Data into Database (Optional)
+
+Load synthetic or sample data into the database:
+
+```bash
+# Load sample data (10 earthquakes)
+node scripts/load_synthetic_data.js data/sample_earthquakes.json
+
+# Load generated synthetic data
+node scripts/load_synthetic_data.js data/synthetic_earthquakes.json
+```
+
+#### Step 4: Run Experiments
+
+Run the experiment suite to test the system:
+
+```bash
+# Run all experiments
+node scripts/run_experiments.js all
+
+# Run specific experiments
+node scripts/run_experiments.js api          # Test API endpoints only
+node scripts/run_experiments.js websocket   # Test WebSocket connections only
+node scripts/run_experiments.js performance # Performance benchmarking only
+```
+
+### Script Descriptions
+
+#### 1. `scripts/generate_synthetic_data.js`
+
+**Purpose**: Generates synthetic earthquake data for testing and experimentation.
+
+**Description**: 
+This script creates realistic earthquake events with random magnitudes, locations, and timestamps. It uses known earthquake-prone regions (Pacific Ring of Fire, San Andreas Fault, etc.) to generate geographically accurate test data. Each earthquake includes:
+- Realistic magnitude values (3.0-8.5)
+- Coordinates from actual seismic regions
+- Random timestamps within the last year
+- Calculated depth and confidence scores
+
+**Usage**:
+```bash
+node scripts/generate_synthetic_data.js [count] [output_file]
+```
+
+**Parameters**:
+- `count` (optional): Number of earthquakes to generate (default: 50)
+- `output_file` (optional): Output file path (default: `data/synthetic_earthquakes.json`)
+
+**Examples**:
+```bash
+# Generate 100 earthquakes
+node scripts/generate_synthetic_data.js 100
+
+# Generate 50 earthquakes to custom file
+node scripts/generate_synthetic_data.js 50 data/test_data.json
+```
+
+**Output**: JSON file with array of earthquake objects
+
+---
+
+#### 2. `scripts/load_synthetic_data.js`
+
+**Purpose**: Loads earthquake data from JSON files into the PostgreSQL database.
+
+**Description**:
+This script reads earthquake data from a JSON file and inserts it into the database. It:
+- Validates data format
+- Checks for duplicate records (by timestamp and coordinates)
+- Handles database connection errors gracefully
+- Provides progress feedback during insertion
+
+**Usage**:
+```bash
+node scripts/load_synthetic_data.js [data_file] [database_url]
+```
+
+**Parameters**:
+- `data_file` (optional): Path to JSON file (default: `data/synthetic_earthquakes.json`)
+- `database_url` (optional): PostgreSQL connection string (default: from `.env` file)
+
+**Examples**:
+```bash
+# Load sample data
+node scripts/load_synthetic_data.js data/sample_earthquakes.json
+
+# Load with custom database URL
+node scripts/load_synthetic_data.js data/synthetic_earthquakes.json postgres://user:pass@localhost:5432/quakeapp
+```
+
+**Output**: Console logs showing insertion progress and statistics
+
+---
+
+#### 3. `scripts/run_experiments.js`
+
+**Purpose**: Runs comprehensive tests and experiments on the Quake-App system.
+
+**Description**:
+This script performs three types of experiments:
+
+1. **API Endpoint Testing**: Tests all REST API endpoints
+   - GET `/api/earthquakes` - Retrieve all earthquakes
+   - POST `/api/earthquakes` - Create new earthquake
+   - GET `/api/earthquakes/:id` - Get specific earthquake
+
+2. **WebSocket Connection Testing**: Tests real-time WebSocket functionality
+   - Connection establishment
+   - Location message sending
+   - Message reception
+
+3. **Performance Benchmarking**: Measures API response times
+   - Multiple request iterations
+   - Average, min, and max response times
+
+**Usage**:
+```bash
+node scripts/run_experiments.js [experiment_name]
+```
+
+**Parameters**:
+- `experiment_name` (optional): Specific experiment to run (default: `all`)
+  - `all` - Run all experiments
+  - `api` - API endpoint testing only
+  - `websocket` - WebSocket testing only
+  - `performance` - Performance benchmarking only
+
+**Examples**:
+```bash
+# Run all experiments
+node scripts/run_experiments.js all
+
+# Test only API endpoints
+node scripts/run_experiments.js api
+
+# Test only WebSocket
+node scripts/run_experiments.js websocket
+```
+
+**Output**: Detailed test results and statistics printed to console
+
+---
+
+### Sample Dataset
+
+A sample dataset with 10 earthquake events is included in the repository:
+
+**Location**: `data/sample_earthquakes.json`
+
+**Dataset Description**:
+- **Size**: 10 earthquake records
+- **Coverage**: Global (Japan, Australia, USA, Chile, Mexico, UK, New Zealand)
+- **Magnitude Range**: 3.9 - 7.1
+- **Time Period**: January 2024
+- **Format**: JSON array with complete earthquake objects
+
+**Sample Record**:
+```json
+{
+  "id": 1,
+  "magnitude": 6.8,
+  "latitude": 36.1083,
+  "longitude": 140.0795,
+  "depth": 15.0,
+  "location": "Near East Coast of Honshu, Japan",
+  "timestamp": "2024-01-15T08:23:45.000Z",
+  "confidence": 0.95
+}
+```
+
+**Using the Sample Dataset**:
+
+1. **Load into database**:
+   ```bash
+   node scripts/load_synthetic_data.js data/sample_earthquakes.json
+   ```
+
+2. **View in web dashboard**:
+   - Start the web dashboard: `cd web && npm run dev`
+   - Navigate to `http://localhost:3000`
+   - Login and view the dashboard
+
+3. **Access via API**:
+   ```bash
+   curl http://localhost:3001/api/earthquakes
+   ```
+
+### Generating Your Own Synthetic Data
+
+To generate custom synthetic data:
+
+1. **Basic generation**:
+   ```bash
+   node scripts/generate_synthetic_data.js 100
+   ```
+
+2. **Custom output location**:
+   ```bash
+   node scripts/generate_synthetic_data.js 200 data/my_custom_data.json
+   ```
+
+3. **Load generated data**:
+   ```bash
+   node scripts/load_synthetic_data.js data/my_custom_data.json
+   ```
+
+The generator creates realistic data based on:
+- 10 known earthquake-prone regions worldwide
+- Realistic magnitude distributions per region
+- Geographically accurate coordinates
+- Random timestamps within the last year
+- Calculated depth and confidence values
+
+### Experiment Workflow Example
+
+Complete workflow for running experiments:
+
+```bash
+# 1. Start backend server (in one terminal)
+cd mobile/backend
+npm run dev
+
+# 2. Generate and load test data (in another terminal)
+node scripts/generate_synthetic_data.js 50
+node scripts/load_synthetic_data.js data/synthetic_earthquakes.json
+
+# 3. Run experiments
+node scripts/run_experiments.js all
+
+# 4. Verify results in web dashboard
+cd web
+npm run dev
+# Open http://localhost:3000 and login
+```
+
 ## 🔧 Configuration
 
 ### Environment Variables
